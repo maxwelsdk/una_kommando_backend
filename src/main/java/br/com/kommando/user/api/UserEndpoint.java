@@ -1,7 +1,7 @@
-package br.com.kommando.users.api;
+package br.com.kommando.user.api;
 
-import br.com.kommando.users.data.models.User;
-import br.com.kommando.users.data.services.UserService;
+import br.com.kommando.user.data.models.User;
+import br.com.kommando.user.data.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.HashMap;
 
 @RequestMapping("users")
-public class UserController {
+public class UserEndpoint {
 
     @Autowired
     UserService service;
@@ -26,8 +26,12 @@ public class UserController {
     }
 
     @PostMapping
-    ResponseEntity<HashMap<String, Object>> newUser(@RequestBody User user) {
+    ResponseEntity<HashMap<String, Object>> newUser(@RequestBody User user) throws Exception {
         HashMap<String, Object> response = new HashMap<>();
+        if (user.getUid().isBlank()) {
+            response.put("error", new Exception("uid falhou"));
+            return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
+        }
         response.put("users", service.user(user));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

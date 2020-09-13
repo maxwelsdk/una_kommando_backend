@@ -1,7 +1,7 @@
-package br.com.kommando.users.data.services;
+package br.com.kommando.user.data.services;
 
-import br.com.kommando.users.data.models.User;
-import br.com.kommando.users.repository.UserRepository;
+import br.com.kommando.user.data.models.User;
+import br.com.kommando.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
