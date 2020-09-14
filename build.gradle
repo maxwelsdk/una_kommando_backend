@@ -6,7 +6,6 @@ plugins {
 
 group = 'br.com'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
@@ -15,8 +14,9 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly("org.springframework.boot:spring-boot-devtools")
     implementation 'org.jetbrains:annotations:19.0.0'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
