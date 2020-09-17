@@ -18,9 +18,9 @@ public class Lobby implements Serializable {
 
     private String descricao;
 
-    LobbyStatus lobbyStatus = LobbyStatus.ABERTA;
+    private LobbyStatus lobbyStatus = LobbyStatus.ABERTA;
 
-    List<Consumidor> consumidorList;
+    private List<Consumidor> consumidorList;
 
     public Lobby() {
     }
