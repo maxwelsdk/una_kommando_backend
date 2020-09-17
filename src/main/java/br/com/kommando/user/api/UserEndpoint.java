@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class UserEndpoint {
 
     @Autowired
-    UserService service;
+    private UserService service;
 
     @GetMapping
     ResponseEntity<HashMap<String, Object>> getUsers() {

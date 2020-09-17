@@ -2,22 +2,60 @@ package br.com.kommando.lobby.api;
 
 import br.com.kommando.lobby.data.models.Lobby;
 import br.com.kommando.lobby.data.services.LobbyService;
+import br.com.kommando.lobby.error.LobbyNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 @RestController
-@RequestMapping(name = "lobbies")
+@RequestMapping("lobbies")
 public class LobbyEndpoint {
 
     @Autowired
     private LobbyService lobbyServices;
+
+    @GetMapping
+    public ResponseEntity<HashMap<String, Object>> getLobbies() {
+        HashMap<String, Object> response = new HashMap<>();
+        final List<Lobby> lobbies = lobbyServices.findAll();
+        response.put("lobbies", Objects.requireNonNullElseGet(lobbies, (Supplier<List<Lobby>>) ArrayList::new));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<HashMap<String, Object>> getLobby(@PathVariable String id) {
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("lobby", lobbyServices.findById(id));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<HashMap<String, Object>> deleteLobby(@PathVariable String id) {
+        try {
+            lobbyServices.deleteById(id);
+            HashMap<String, Object> response = new HashMap<>();
+            response.put("Lobby deletada", id);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    @PatchMapping
+    public ResponseEntity<HashMap<String, Object>> updateLobby(@RequestBody Lobby lobby) {
+        HashMap<String, Object> response = new HashMap<>();
+        final Lobby update = lobbyServices.updateLobby(lobby);
+        if (update == null) throw new LobbyNotFoundException("Lobby inexistente");
+        response.put("lobby", update);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<HashMap<String, Object>> newLobby(@RequestBody Lobby lobby) {
