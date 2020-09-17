@@ -2,6 +2,7 @@ package br.com.kommando.user.api;
 
 import br.com.kommando.user.data.models.User;
 import br.com.kommando.user.data.services.UserService;
+import br.com.kommando.user.error.InvalidUidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,14 +24,20 @@ public class UserEndpoint {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping
-    ResponseEntity<HashMap<String, Object>> newUser(@RequestBody User user) throws Exception {
+    @GetMapping(path = "/{uid}")
+    ResponseEntity<HashMap<String, Object>> getUserByUid(@PathVariable String uid) {
         HashMap<String, Object> response = new HashMap<>();
-        if (user.getUid().isBlank()) {
-            response.put("error", new Exception("uid falhou"));
-            return new ResponseEntity<>(response, HttpStatus.NOT_ACCEPTABLE);
-        }
-        response.put("users", service.user(user));
+        response.put("user", service.getUser(uid));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PostMapping
+    ResponseEntity<HashMap<String, Object>> newUser(@RequestBody User user) {
+        HashMap<String, Object> response = new HashMap<>();
+        if (user.getUid() == null) throw new InvalidUidException("Indentificação única de usuário inválida");
+        response.put("users", service.saveUser(user));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    //TODO: Endpoint para update user;
 }
