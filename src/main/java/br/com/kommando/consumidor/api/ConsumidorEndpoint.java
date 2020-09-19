@@ -2,6 +2,8 @@ package br.com.kommando.consumidor.api;
 
 import br.com.kommando.consumidor.data.models.Consumidor;
 import br.com.kommando.consumidor.data.service.ConsumidorService;
+import br.com.kommando.consumidor.error.NotValidConsumerException;
+import br.com.kommando.lobby.error.LobbyNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,9 @@ public class ConsumidorEndpoint {
     @PostMapping
     public ResponseEntity<HashMap<String, Object>> adicionarConsumidor(@RequestBody Consumidor consumidor) {
         HashMap<String, Object> response = new HashMap<>();
-        response.put("consumidor", service.saveConsumidor(consumidor));
+        Consumidor consumidorResult = service.saveConsumidor(consumidor);
+        if (consumidorResult == null) throw new NotValidConsumerException("Usuário inválido ou não existe");
+        response.put("consumidor", consumidorResult);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
