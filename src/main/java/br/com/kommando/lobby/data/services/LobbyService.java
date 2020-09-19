@@ -3,7 +3,6 @@ package br.com.kommando.lobby.data.services;
 import br.com.kommando.lobby.data.models.Lobby;
 import br.com.kommando.lobby.repository.LobbyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
