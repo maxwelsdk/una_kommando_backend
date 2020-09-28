@@ -3,7 +3,7 @@ package br.com.kommando.pedido.data.services;
 import br.com.kommando.pedido.data.models.Pedido;
 import br.com.kommando.pedido.error.InvalidPedidoException;
 import br.com.kommando.pedido.error.PedidoHasItemsException;
-import br.com.kommando.pedido.repository.IPedido;
+import br.com.kommando.pedido.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class PedidoServices {
 
     @Autowired
-    IPedido repository;
+    PedidoRepository repository;
 
     public Pedido savePedido(Pedido pedido) {
         ArrayList<Boolean> validations = new ArrayList<>();
