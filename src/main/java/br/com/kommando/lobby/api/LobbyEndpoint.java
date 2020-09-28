@@ -62,7 +62,7 @@ public class LobbyEndpoint {
         final HashMap<String, Object> response = new HashMap<>();
         final Lobby savedLobby = lobbyServices.saveLobby(lobby);
         if (savedLobby != null) {
-            response.put("msg", "Lobby criadas com successo");
+            response.put("msg", "Lobby criada com successo");
             response.put("lobby", savedLobby);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         }

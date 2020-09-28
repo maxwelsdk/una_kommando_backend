@@ -1,4 +1,4 @@
-package br.com.kommando.consumidor.data.service;
+package br.com.kommando.consumidor.data.services;
 
 import br.com.kommando.consumidor.data.models.Consumidor;
 import br.com.kommando.consumidor.error.NotValidConsumerException;
@@ -7,6 +7,8 @@ import br.com.kommando.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ConsumidorService {
@@ -27,4 +29,7 @@ public class ConsumidorService {
         return null;
     }
 
+    public List<Consumidor> findAllConsumidores() {
+        return repository.findAll();
+    }
 }

@@ -28,9 +28,8 @@ public class LobbyService {
         return repository.findById(id);
     }
 
-    public Object deleteById(String id) {
+    public void deleteById(String id) {
         repository.deleteById(id);
-        return null;
     }
 
     public Lobby updateLobby(Lobby lobby) {

@@ -4,6 +4,9 @@ import br.com.kommando.consumidor.data.models.Consumidor;
 import br.com.kommando.consumidor.error.NotValidConsumerException;
 import br.com.kommando.lobby.data.models.Lobby;
 import br.com.kommando.lobby.error.LobbyNotFoundException;
+import br.com.kommando.pedido.data.models.Pedido;
+import br.com.kommando.pedido.error.InvalidPedidoException;
+import br.com.kommando.pedido.error.PedidoHasItemsException;
 import br.com.kommando.user.data.models.User;
 import br.com.kommando.user.error.InvalidUidException;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +29,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleLobbyNotFoundException(LobbyNotFoundException exception) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ErrorResponse errorResponse = new ErrorResponse(exception.getMessage(), status.value(), status.name(), Lobby.class.getName(), null);
+        return new ResponseEntity<>(errorResponse, status);
+    }
+
+    @ExceptionHandler(PedidoHasItemsException.class)
+    public ResponseEntity<Object> handlePedidoHasItemsException(PedidoHasItemsException exception) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorResponse errorResponse = new ErrorResponse(exception.getMessage(), status.value(), status.name(), Pedido.class.getName(), null);
+        return new ResponseEntity<>(errorResponse, status);
+    }
+
+    @ExceptionHandler(InvalidPedidoException.class)
+    public ResponseEntity<Object> handleInvalidPedidoException(InvalidPedidoException exception) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorResponse errorResponse = new ErrorResponse(exception.getMessage(), status.value(), status.name(), Pedido.class.getName(), null);
         return new ResponseEntity<>(errorResponse, status);
     }
 
