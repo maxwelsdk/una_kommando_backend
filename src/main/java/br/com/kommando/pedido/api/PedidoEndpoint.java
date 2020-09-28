@@ -35,14 +35,15 @@ public class PedidoEndpoint {
     @GetMapping(path = "/{id}")
     public ResponseEntity<HashMap<String, Object>> getPedido(@PathVariable String id) {
         HashMap<String, Object> response = new HashMap<>();
-        response.put("pedidos", pedidoServices.findById(id));
+        response.put("pedido", pedidoServices.findById(id));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PatchMapping
     public ResponseEntity<HashMap<String, Object>> updatePedido(@RequestBody Pedido pedido) {
         HashMap<String, Object> response = new HashMap<>();
-        response.put("pedido alterado com sucesso", pedidoServices.updatePedido(pedido));
+        response.put("msg", "pedido alterado com sucesso");
+        response.put("pedido", pedidoServices.updatePedido(pedido));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -51,7 +52,7 @@ public class PedidoEndpoint {
         try {
             pedidoServices.deleteById(id);
             HashMap<String, Object> response = new HashMap<>();
-            response.put("Pedido deletado", id);
+            response.put("Pedido", id);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             throw new IllegalArgumentException();
