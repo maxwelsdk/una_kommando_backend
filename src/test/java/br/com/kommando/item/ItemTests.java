@@ -2,14 +2,68 @@ package br.com.kommando.item;
 
 import br.com.kommando.item.api.ItemEndpoint;
 import br.com.kommando.item.data.models.Item;
+import br.com.kommando.item.data.services.ItemService;
 import br.com.kommando.produto.data.models.Produto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
 public class ItemTests {
 
-    @Test
-    void test1() {
-        ItemEndpoint endpoint = new ItemEndpoint();
-        endpoint.newItem(new Item("1", new Produto(), 1));
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private ItemService service;
+
+    static ArrayList<Item> itens = new ArrayList<>();
+
+    @BeforeAll
+    static void setUpAll() {
+        for (int i = 0; i < 5; i++) {
+            itens.add(new Item(String.valueOf(i), new Produto(), 1));
+        }
     }
+
+    @Test
+    void shouldReturnAListOfItem() throws Exception {
+        Mockito.when(service.findAll()).thenReturn(itens);
+        mockMvc.perform(get("/itens")).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldAddAItem() throws Exception {
+        Item item = new Item("99", new Produto(), 1);
+        Mockito.when(service.save(item)).thenReturn(item);
+        mockMvc.perform(MockMvcRequestBuilders.post("/itens")
+                .contentType("application/json")
+                .content(new ObjectMapper().writeValueAsString(item)))
+                .andDo(print()).andExpect(status().isCreated());
+    }
+
+    @Test
+    void shouldRemoveOneItemFromTheList() throws Exception {
+        mockMvc.perform(delete("/itens/1"));
+    }
+
 }
