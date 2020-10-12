@@ -1,11 +1,9 @@
 package br.com.kommando.item;
 
-import br.com.kommando.item.api.ItemEndpoint;
 import br.com.kommando.item.data.models.Item;
 import br.com.kommando.item.data.services.ItemService;
 import br.com.kommando.produto.data.models.Produto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -41,7 +36,7 @@ public class ItemTests {
     @BeforeAll
     static void setUpAll() {
         for (int i = 0; i < 5; i++) {
-            itens.add(new Item(String.valueOf(i), new Produto(), 1));
+            itens.add(new Item(String.valueOf(i), new Produto(1 + i, "Teste " + i, 29.0), 1));
         }
     }
 
