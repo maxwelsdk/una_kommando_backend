@@ -7,6 +7,8 @@ import br.com.kommando.lobby.error.LobbyNotFoundException;
 import br.com.kommando.pedido.data.models.Pedido;
 import br.com.kommando.pedido.error.InvalidPedidoException;
 import br.com.kommando.pedido.error.PedidoHasItemsException;
+import br.com.kommando.produto.data.models.Produto;
+import br.com.kommando.produto.error.ProdutoNotFoundException;
 import br.com.kommando.user.data.models.User;
 import br.com.kommando.user.error.InvalidUidException;
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +26,13 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(ProdutoNotFoundException.class)
+    public ResponseEntity<Object> handleProdutoNotFoundException(ProdutoNotFoundException exception) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ErrorResponse errorResponse = new ErrorResponse(exception.getMessage(), status.value(), status.name(), Produto.class.getName(), null);
+        return new ResponseEntity<>(errorResponse, status);
+    }
 
     @ExceptionHandler(LobbyNotFoundException.class)
     public ResponseEntity<Object> handleLobbyNotFoundException(LobbyNotFoundException exception) {

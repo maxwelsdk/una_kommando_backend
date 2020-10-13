@@ -1,9 +1,8 @@
 package br.com.kommando.lobby;
 
-import br.com.kommando.item.data.models.Item;
 import br.com.kommando.lobby.data.models.Lobby;
 import br.com.kommando.lobby.data.services.LobbyService;
-import br.com.kommando.produto.data.models.Produto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -12,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 
@@ -42,6 +42,16 @@ public class LobbyTests {
     void shouldReturnAListOfItem() throws Exception {
         Mockito.when(service.findAll()).thenReturn(lobbies);
         mockMvc.perform(get("/lobbies")).andDo(print()).andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldCreateAnewLobby() throws Exception {
+        Mockito.when(service.saveLobby(lobbies.get(0))).thenReturn(new Lobby());
+        mockMvc.perform(MockMvcRequestBuilders.post("/lobbies")
+                .contentType("application/json")
+                .content(new ObjectMapper()
+                        .writeValueAsString(lobbies.get(0))))
+                .andExpect(status().isCreated());
     }
 
 }
