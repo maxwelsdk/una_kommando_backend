@@ -1,7 +1,7 @@
 package br.com.kommando.produto.data.services;
 
+import br.com.kommando.exception.error.DataNotFoundException;
 import br.com.kommando.produto.data.models.Produto;
-import br.com.kommando.produto.error.ProdutoNotFoundException;
 import br.com.kommando.produto.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class ProdutoServices {
             if (repository.findById(id).isPresent()) {
                 repository.deleteById(id);
             } else {
-                throw new ProdutoNotFoundException("Produto não encontrado");
+                throw new DataNotFoundException("Produto não encontrado");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +45,7 @@ public class ProdutoServices {
             repository.deleteById(produto.getId());
             return repository.save(produto);
         } else {
-            throw new ProdutoNotFoundException("Produto não encontrado");
+            throw new DataNotFoundException("Produto não encontrado");
         }
 
     }

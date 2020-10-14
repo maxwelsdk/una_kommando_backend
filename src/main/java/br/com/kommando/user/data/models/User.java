@@ -1,6 +1,7 @@
 package br.com.kommando.user.data.models;
 
 import com.mongodb.lang.NonNull;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -26,6 +27,9 @@ public class User implements Serializable {
     @NonNull
     private String cpf;
 
+    @NonNull
+    private String telefone;
+
     public User() {
     }
 
@@ -37,35 +41,48 @@ public class User implements Serializable {
         this.id = id;
     }
 
+    @NonNull
     public String getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(@NonNull String uid) {
         this.uid = uid;
     }
 
+    @NonNull
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(@NonNull String nome) {
         this.nome = nome;
     }
 
+    @NonNull
     public String getDisplayName() {
         return displayName;
     }
 
-    public void setDisplayName(String displayName) {
+    public void setDisplayName(@NonNull String displayName) {
         this.displayName = displayName;
     }
 
+    @NonNull
     public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
+    public void setCpf(@NonNull String cpf) {
         this.cpf = cpf;
+    }
+
+    @NonNull
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(@NonNull String telefone) {
+        this.telefone = telefone;
     }
 }

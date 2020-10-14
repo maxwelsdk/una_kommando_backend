@@ -1,5 +1,6 @@
 package br.com.kommando.user.data.services;
 
+import br.com.kommando.exception.error.DataNotFoundException;
 import br.com.kommando.user.data.models.User;
 import br.com.kommando.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,16 @@ public class UserService {
     public Optional<User> getUser(String uid) {
         User userExample = new User();
         userExample.setUid(uid);
-        return repository.findOne(Example.of(userExample));
+        Optional<User> foundUser = repository.findOne(Example.of(userExample));
+        if (foundUser.isEmpty()) throw new DataNotFoundException("Usuário não encontrado");
+        return foundUser;
+    }
+
+    public void deleteById(String id) {
+        if (repository.findById(id).isPresent()) {
+            repository.deleteById(id);
+        } else {
+            throw new DataNotFoundException("Usuário não encontrado");
+        }
     }
 }

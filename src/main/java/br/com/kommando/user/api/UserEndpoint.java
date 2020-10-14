@@ -1,5 +1,6 @@
 package br.com.kommando.user.api;
 
+import br.com.kommando.exception.error.DataNotFoundException;
 import br.com.kommando.user.data.models.User;
 import br.com.kommando.user.data.services.UserService;
 import br.com.kommando.user.error.InvalidUidException;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
@@ -34,10 +36,15 @@ public class UserEndpoint {
     @PostMapping
     ResponseEntity<HashMap<String, Object>> newUser(@RequestBody User user) {
         HashMap<String, Object> response = new HashMap<>();
-        if (user.getUid() == null) throw new InvalidUidException("Indentificação única de usuário inválida");
-        response.put("users", service.saveUser(user));
+        response.put("user", service.saveUser(user));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    //TODO: Endpoint para update user;
+    @DeleteMapping(path = "/{id}")
+    ResponseEntity<HashMap<String, Object>> deleteById(@PathVariable String id) {
+        HashMap<String, Object> response = new HashMap<>();
+        service.deleteById(id);
+        response.put("user", id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

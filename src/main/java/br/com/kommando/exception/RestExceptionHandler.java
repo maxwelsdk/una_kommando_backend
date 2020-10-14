@@ -2,13 +2,12 @@ package br.com.kommando.exception;
 
 import br.com.kommando.consumidor.data.models.Consumidor;
 import br.com.kommando.consumidor.error.NotValidConsumerException;
+import br.com.kommando.exception.error.DataNotFoundException;
 import br.com.kommando.lobby.data.models.Lobby;
 import br.com.kommando.lobby.error.LobbyNotFoundException;
 import br.com.kommando.pedido.data.models.Pedido;
 import br.com.kommando.pedido.error.InvalidPedidoException;
 import br.com.kommando.pedido.error.PedidoHasItemsException;
-import br.com.kommando.produto.data.models.Produto;
-import br.com.kommando.produto.error.ProdutoNotFoundException;
 import br.com.kommando.user.data.models.User;
 import br.com.kommando.user.error.InvalidUidException;
 import org.jetbrains.annotations.NotNull;
@@ -27,10 +26,10 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ProdutoNotFoundException.class)
-    public ResponseEntity<Object> handleProdutoNotFoundException(ProdutoNotFoundException exception) {
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<Object> handleDataNotFoundException(DataNotFoundException exception) {
         HttpStatus status = HttpStatus.NOT_FOUND;
-        ErrorResponse errorResponse = new ErrorResponse(exception.getMessage(), status.value(), status.name(), Produto.class.getName(), null);
+        ErrorResponse errorResponse = new ErrorResponse(exception.getMessage(), status.value(), status.name(), exception.getClass().getName(), null);
         return new ResponseEntity<>(errorResponse, status);
     }
 
