@@ -1,16 +1,13 @@
 package br.com.kommando.user.api;
 
-import br.com.kommando.exception.error.DataNotFoundException;
 import br.com.kommando.user.data.models.User;
 import br.com.kommando.user.data.services.UserService;
-import br.com.kommando.user.error.InvalidUidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
