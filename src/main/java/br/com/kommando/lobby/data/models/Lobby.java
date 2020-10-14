@@ -27,6 +27,17 @@ public class Lobby implements Serializable {
         this.consumidorList = new ArrayList<>();
     }
 
+    public Lobby(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Lobby(String id, String descricao, LobbyStatus lobbyStatus) {
+        this.id = id;
+        this.descricao = descricao;
+        this.lobbyStatus = lobbyStatus;
+        this.consumidorList = new ArrayList<>();
+    }
+
     public String getId() {
         return id;
     }

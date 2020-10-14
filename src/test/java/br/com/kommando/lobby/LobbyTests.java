@@ -2,14 +2,16 @@ package br.com.kommando.lobby;
 
 import br.com.kommando.lobby.data.models.Lobby;
 import br.com.kommando.lobby.data.services.LobbyService;
+import br.com.kommando.lobby.repository.LobbyRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -26,8 +28,12 @@ public class LobbyTests {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @InjectMocks
     private LobbyService service;
+
+    @Mock
+    private LobbyRepository repository;
+
 
     static ArrayList<Lobby> lobbies = new ArrayList<>();
 
@@ -39,19 +45,23 @@ public class LobbyTests {
     }
 
     @Test
-    void shouldReturnAListOfItem() throws Exception {
+    void shouldReturnAListOfLobbies() throws Exception {
         Mockito.when(service.findAll()).thenReturn(lobbies);
         mockMvc.perform(get("/lobbies")).andDo(print()).andExpect(status().isOk());
     }
 
     @Test
     void shouldCreateAnewLobby() throws Exception {
-        Mockito.when(service.saveLobby(lobbies.get(0))).thenReturn(new Lobby());
+        Lobby requestedLobby = new Lobby("lobby teste");
+        Lobby responseLobby = new Lobby("lobby teste");
+        responseLobby.setId("0123456789");
+
+        Mockito.when(service.saveLobby(requestedLobby)).thenReturn(responseLobby);
+        Mockito.when(repository.save(requestedLobby)).thenReturn(responseLobby);
         mockMvc.perform(MockMvcRequestBuilders.post("/lobbies")
                 .contentType("application/json")
                 .content(new ObjectMapper()
-                        .writeValueAsString(lobbies.get(0))))
+                        .writeValueAsString(responseLobby)))
                 .andExpect(status().isCreated());
     }
-
 }
