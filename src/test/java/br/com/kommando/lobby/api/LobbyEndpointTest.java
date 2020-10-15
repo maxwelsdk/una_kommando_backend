@@ -1,10 +1,11 @@
-package br.com.kommando.lobby;
+package br.com.kommando.lobby.api;
 
+import br.com.kommando.lobby.data.enums.LobbyStatus;
 import br.com.kommando.lobby.data.models.Lobby;
 import br.com.kommando.lobby.data.services.LobbyService;
 import br.com.kommando.lobby.repository.LobbyRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -17,13 +18,15 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class LobbyTests {
+class LobbyEndpointTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,23 +38,34 @@ public class LobbyTests {
     private LobbyRepository repository;
 
 
-    static ArrayList<Lobby> lobbies = new ArrayList<>();
-
-    @BeforeAll
-    static void setUpAll() {
+    @Test
+    void getLobbies() throws Exception {
+        ArrayList<Lobby> lobbies = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             lobbies.add(new Lobby());
         }
-    }
-
-    @Test
-    void shouldReturnAListOfLobbies() throws Exception {
         Mockito.when(service.findAll()).thenReturn(lobbies);
-        mockMvc.perform(get("/lobbies")).andDo(print()).andExpect(status().isOk());
+        mockMvc.perform(get("/lobbies")).andExpect(status().isOk());
     }
 
     @Test
-    void shouldCreateAnewLobby() throws Exception {
+    void getLobby() throws Exception {
+        Mockito.when(service.findById("0123456789"))
+                .thenReturn(java.util.Optional.of(new Lobby("0123456789", "lobby teste", LobbyStatus.ABERTA)));
+        mockMvc.perform(get("/lobbies/0123456789")).andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteLobby() throws Exception {
+        mockMvc.perform(delete("/lobbies/0123456789")).andExpect(status().isOk());
+    }
+
+    @Test
+    void updateLobby() {
+    }
+
+    @Test
+    void newLobby() throws Exception {
         Lobby requestedLobby = new Lobby("lobby teste");
         Lobby responseLobby = new Lobby("lobby teste");
         responseLobby.setId("0123456789");
