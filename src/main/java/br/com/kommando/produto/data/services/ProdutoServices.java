@@ -19,7 +19,7 @@ public class ProdutoServices {
         return repository.findAll();
     }
 
-    public Optional<Produto> findOneById(String id) {
+    public Optional<Produto> findById(String id) {
         return repository.findById(id);
     }
 

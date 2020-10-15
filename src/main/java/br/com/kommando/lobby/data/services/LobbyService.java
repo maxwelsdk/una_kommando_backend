@@ -1,5 +1,6 @@
 package br.com.kommando.lobby.data.services;
 
+import br.com.kommando.exception.error.DataNotFoundException;
 import br.com.kommando.lobby.data.models.Lobby;
 import br.com.kommando.lobby.repository.LobbyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,11 @@ public class LobbyService {
     }
 
     public void deleteById(String id) {
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new DataNotFoundException("Lobby não encontrada");
+        }
     }
 
     public Lobby updateLobby(Lobby lobby) {

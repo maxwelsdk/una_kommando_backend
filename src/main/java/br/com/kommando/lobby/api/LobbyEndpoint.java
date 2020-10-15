@@ -38,14 +38,10 @@ public class LobbyEndpoint {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<HashMap<String, Object>> deleteLobby(@PathVariable String id) {
-        try {
-            lobbyServices.deleteById(id);
-            HashMap<String, Object> response = new HashMap<>();
-            response.put("Lobby deletada", id);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            throw new IllegalArgumentException();
-        }
+        lobbyServices.deleteById(id);
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("Lobby deletada", id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PatchMapping
