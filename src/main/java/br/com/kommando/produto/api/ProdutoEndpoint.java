@@ -34,7 +34,8 @@ public class ProdutoEndpoint {
     public ResponseEntity<HashMap<String, Object>> deleteProduto(@PathVariable String id) {
         HashMap<String, Object> response = new HashMap<>();
         produtoServices.deleteById(id);
-        response.put("Produto deletado", id);
+        response.put("msg", "Produto deletado com sucesso!");
+        response.put("id", id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -43,7 +44,7 @@ public class ProdutoEndpoint {
         HashMap<String, Object> response = new HashMap<>();
         response.put("msg", "produto criado com sucesso!");
         response.put("produto", produtoServices.save(produto));
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PatchMapping

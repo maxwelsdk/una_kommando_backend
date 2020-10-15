@@ -40,7 +40,8 @@ public class LobbyEndpoint {
     public ResponseEntity<HashMap<String, Object>> deleteLobby(@PathVariable String id) {
         lobbyServices.deleteById(id);
         HashMap<String, Object> response = new HashMap<>();
-        response.put("Lobby deletada", id);
+        response.put("msg", "Lobby deletada com sucesso!");
+        response.put("id", id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

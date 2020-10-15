@@ -52,7 +52,8 @@ public class PedidoEndpoint {
         try {
             pedidoServices.deleteById(id);
             HashMap<String, Object> response = new HashMap<>();
-            response.put("Pedido", id);
+            response.put("msg", "Pedido deletado com sucesso!");
+            response.put("id", id);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             throw new IllegalArgumentException();
