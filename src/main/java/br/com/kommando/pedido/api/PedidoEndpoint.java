@@ -28,7 +28,7 @@ public class PedidoEndpoint {
         HashMap<String, Object> response = new HashMap<>();
         response.put("msg", "pedido criado com sucesso!");
         response.put("pedido", pedidoServices.savePedido(pedido));
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 
@@ -49,15 +49,12 @@ public class PedidoEndpoint {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<HashMap<String, Object>> deletePedido(@PathVariable String id) {
-        try {
-            pedidoServices.deleteById(id);
-            HashMap<String, Object> response = new HashMap<>();
-            response.put("msg", "Pedido deletado com sucesso!");
-            response.put("id", id);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            throw new IllegalArgumentException();
-        }
+        HashMap<String, Object> response = new HashMap<>();
+        pedidoServices.deleteById(id);
+        response.put("msg", "Pedido deletado com sucesso!");
+        response.put("id", id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
 
