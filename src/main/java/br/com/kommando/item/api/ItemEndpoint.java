@@ -46,11 +46,4 @@ public class ItemEndpoint {
         response.put("id", id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-    @PatchMapping
-    public ResponseEntity<HashMap<String, Object>> updateItem(@RequestBody Item item) {
-        HashMap<String, Object> response = new HashMap<>();
-        response.put("item", service.updateItem(item));
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 }
