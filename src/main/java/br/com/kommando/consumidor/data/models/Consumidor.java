@@ -1,6 +1,5 @@
 package br.com.kommando.consumidor.data.models;
 
-import br.com.kommando.pedido.data.models.Pedido;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,7 +19,7 @@ public class Consumidor implements Serializable {
 
     private String lobbyId;
 
-    private List<Pedido> pedidos;
+    private List<String> pedidos;
 
     public Consumidor() {
         this.pedidos = new ArrayList<>();
@@ -50,11 +49,11 @@ public class Consumidor implements Serializable {
         this.lobbyId = lobbyId;
     }
 
-    public List<Pedido> getPedidos() {
+    public List<String> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(List<Pedido> pedidos) {
+    public void setPedidos(List<String> pedidos) {
         this.pedidos = pedidos;
     }
 

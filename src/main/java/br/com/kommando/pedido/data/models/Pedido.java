@@ -26,6 +26,11 @@ public class Pedido implements Serializable {
         this.items = new ArrayList<>();
     }
 
+    public Pedido(String lobbyId, String consumidorId) {
+        this.lobbyId = lobbyId;
+        this.consumidorId = consumidorId;
+    }
+
     public String getId() {
         return id;
     }
