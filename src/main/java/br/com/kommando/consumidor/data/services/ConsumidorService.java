@@ -34,8 +34,8 @@ public class ConsumidorService {
         return null;
     }
 
-    public List<Consumidor> findAllConsumidores() {
-        List<Consumidor> consumidores = repository.findAll();
+    public List<Consumidor> findAllConsumidores(String id) {
+        List<Consumidor> consumidores = repository.findAll(Example.of(new Consumidor(id)));
         consumidores.forEach(consumidor -> {
                     Pedido pedido = new Pedido(consumidor.getLobbyId(), consumidor.getId());
                     List<Pedido> pedidos = pedidoRepository.findAll(Example.of(pedido));

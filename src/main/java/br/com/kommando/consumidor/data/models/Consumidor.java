@@ -25,6 +25,10 @@ public class Consumidor implements Serializable {
         this.pedidos = new ArrayList<>();
     }
 
+    public Consumidor(String lobbyId) {
+        this.lobbyId = lobbyId;
+    }
+
     public String getId() {
         return id;
     }

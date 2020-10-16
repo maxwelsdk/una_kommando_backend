@@ -26,10 +26,10 @@ public class ConsumidorEndpoint {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<HashMap<String, Object>> buscarConsumidores() {
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<HashMap<String, Object>> buscarConsumidores(@PathVariable String id) {
         HashMap<String, Object> response = new HashMap<>();
-        response.put("consumidores", service.findAllConsumidores());
+        response.put("consumidores", service.findAllConsumidores(id));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
