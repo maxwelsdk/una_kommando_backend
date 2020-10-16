@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -23,11 +24,15 @@ public class ItemService {
     }
 
     public Item save(Item item) {
-        if (produtoRepository.findById(item.getProduto().getId()).isPresent()) {
+        if (produtoRepository.findById(item.getProdutoId()).isPresent()) {
             return repository.save(item);
         } else {
             throw new DataNotFoundException("Produto não encontrado");
         }
+    }
+
+    public Optional<Item> findById(String id) {
+        return repository.findById(id);
     }
 
     public void removeById(String id) {
@@ -36,13 +41,5 @@ public class ItemService {
         } catch (Exception e) {
             throw new IllegalArgumentException();
         }
-    }
-
-    public Item updateItem(Item item) {
-        if (repository.findById(item.getId()).isPresent()) {
-            removeById(item.getId());
-            return save(item);
-        }
-        return null;
     }
 }

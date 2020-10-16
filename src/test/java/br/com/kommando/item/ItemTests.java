@@ -36,7 +36,7 @@ public class ItemTests {
     @BeforeAll
     static void setUpAll() {
         for (int i = 0; i < 5; i++) {
-            itens.add(new Item(String.valueOf(i), new Produto(1 + i, "Teste " + i, 29.0), 1));
+            itens.add(new Item(String.valueOf(i), "new Produto(1 + i, + i, 29.0)", 1));
         }
     }
 
@@ -48,7 +48,7 @@ public class ItemTests {
 
     @Test
     void shouldAddAItem() throws Exception {
-        Item item = new Item("99", new Produto(), 1);
+        Item item = new Item("99", "new Produto()", 1);
         Mockito.when(service.save(item)).thenReturn(item);
         mockMvc.perform(MockMvcRequestBuilders.post("/itens")
                 .contentType("application/json")

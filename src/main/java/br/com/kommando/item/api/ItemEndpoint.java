@@ -31,11 +31,19 @@ public class ItemEndpoint {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @DeleteMapping
-    public ResponseEntity<HashMap<String, Object>> deleteItem(Item item) {
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<HashMap<String, Object>> getItem(@PathVariable String id) {
         HashMap<String, Object> response = new HashMap<>();
-        service.removeById(item.getId());
-        response.put("item deletado", item.getId());
+        response.put("item", service.findById(id));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<HashMap<String, Object>> deleteItem(@PathVariable String id) {
+        HashMap<String, Object> response = new HashMap<>();
+        service.removeById(id);
+        response.put("msg", "Item deletado com sucesso!");
+        response.put("id", id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

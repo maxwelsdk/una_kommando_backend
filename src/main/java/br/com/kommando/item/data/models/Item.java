@@ -1,6 +1,5 @@
 package br.com.kommando.item.data.models;
 
-import br.com.kommando.produto.data.models.Produto;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,16 +13,16 @@ public class Item implements Serializable {
     @Id
     private String id;
 
-    private Produto produto;
+    private String produtoId;
 
     private int quantidade;
 
     public Item() {
     }
 
-    public Item(String id, Produto produto, int quantidade) {
+    public Item(String id, String produtoId, int quantidade) {
         this.id = id;
-        this.produto = produto;
+        this.produtoId = produtoId;
         this.quantidade = quantidade;
     }
 
@@ -35,12 +34,12 @@ public class Item implements Serializable {
         this.id = id;
     }
 
-    public Produto getProduto() {
-        return produto;
+    public String getProdutoId() {
+        return produtoId;
     }
 
-    public void setProduto(Produto produto) {
-        this.produto = produto;
+    public void setProdutoId(String produtoId) {
+        this.produtoId = produtoId;
     }
 
     public int getQuantidade() {
@@ -49,14 +48,5 @@ public class Item implements Serializable {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                "id='" + id + '\'' +
-                ", produto=" + produto +
-                ", quantidade=" + quantidade +
-                '}';
     }
 }
