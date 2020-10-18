@@ -41,7 +41,8 @@ public class UserEndpoint {
     ResponseEntity<HashMap<String, Object>> deleteById(@PathVariable String id) {
         HashMap<String, Object> response = new HashMap<>();
         service.deleteById(id);
-        response.put("user", id);
+        response.put("msg", "Usuário deletado com sucesso!");
+        response.put("id", id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

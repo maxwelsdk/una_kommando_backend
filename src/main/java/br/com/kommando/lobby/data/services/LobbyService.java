@@ -1,5 +1,6 @@
 package br.com.kommando.lobby.data.services;
 
+import br.com.kommando.exception.error.DataFoundException;
 import br.com.kommando.exception.error.DataNotFoundException;
 import br.com.kommando.lobby.data.models.Lobby;
 import br.com.kommando.lobby.repository.LobbyRepository;
@@ -30,9 +31,14 @@ public class LobbyService {
     }
 
     public void deleteById(String id) {
-        try {
-            repository.deleteById(id);
-        } catch (Exception e) {
+        Optional<Lobby> lobbyOptional = repository.findById(id);
+        if (lobbyOptional.isPresent()) {
+            if (lobbyOptional.get().getConsumidorList().isEmpty()) {
+                repository.deleteById(id);
+            } else {
+                throw new DataFoundException("Lobby possui consumidores, não poderá ser deletada");
+            }
+        } else {
             throw new DataNotFoundException("Lobby não encontrada");
         }
     }

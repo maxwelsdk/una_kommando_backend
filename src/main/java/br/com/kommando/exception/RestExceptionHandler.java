@@ -2,6 +2,7 @@ package br.com.kommando.exception;
 
 import br.com.kommando.consumidor.data.models.Consumidor;
 import br.com.kommando.consumidor.error.NotValidConsumerException;
+import br.com.kommando.exception.error.DataFoundException;
 import br.com.kommando.exception.error.DataNotFoundException;
 import br.com.kommando.lobby.data.models.Lobby;
 import br.com.kommando.lobby.error.LobbyNotFoundException;
@@ -25,6 +26,13 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(DataFoundException.class)
+    public ResponseEntity<Object> handleDataFoundException(DataFoundException exception) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorResponse errorResponse = new ErrorResponse(exception.getMessage(), status.value(), status.name(), exception.getClass().getName(), null);
+        return new ResponseEntity<>(errorResponse, status);
+    }
 
     @ExceptionHandler(DataNotFoundException.class)
     public ResponseEntity<Object> handleDataNotFoundException(DataNotFoundException exception) {

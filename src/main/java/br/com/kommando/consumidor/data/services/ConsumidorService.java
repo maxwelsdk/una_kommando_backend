@@ -3,7 +3,9 @@ package br.com.kommando.consumidor.data.services;
 import br.com.kommando.consumidor.data.models.Consumidor;
 import br.com.kommando.consumidor.error.NotValidConsumerException;
 import br.com.kommando.consumidor.repository.ConsumidorRepository;
+import br.com.kommando.exception.error.DataNotFoundException;
 import br.com.kommando.pedido.data.models.Pedido;
+import br.com.kommando.pedido.error.PedidoHasItemsException;
 import br.com.kommando.pedido.repository.PedidoRepository;
 import br.com.kommando.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ConsumidorService {
@@ -46,5 +49,18 @@ public class ConsumidorService {
                 }
         );
         return consumidores;
+    }
+
+    public void deleteById(String id) {
+        final Optional<Consumidor> foudConsumidor = repository.findById(id);
+        if (foudConsumidor.isPresent()) {
+            if (foudConsumidor.get().getPedidos().isEmpty()) {
+                repository.deleteById(id);
+            } else {
+                throw new PedidoHasItemsException("Há pedidos para este consumidor, não pode ser excluído");
+            }
+        } else {
+            throw new DataNotFoundException("Consumidr não existe");
+        }
     }
 }

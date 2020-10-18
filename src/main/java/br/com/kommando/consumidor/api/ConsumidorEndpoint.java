@@ -2,7 +2,6 @@ package br.com.kommando.consumidor.api;
 
 import br.com.kommando.consumidor.data.models.Consumidor;
 import br.com.kommando.consumidor.data.services.ConsumidorService;
-import br.com.kommando.consumidor.error.NotValidConsumerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +27,15 @@ public class ConsumidorEndpoint {
     public ResponseEntity<HashMap<String, Object>> buscarConsumidores(@PathVariable String lobbyId) {
         HashMap<String, Object> response = new HashMap<>();
         response.put("consumidores", service.findAllConsumidores(lobbyId));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<HashMap<String, Object>> deleteConsumidor(@PathVariable String id) {
+        HashMap<String, Object> response = new HashMap<>();
+        service.deleteById(id);
+        response.put("msg", "Consumidor removido com sucesso!");
+        response.put("id", id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
