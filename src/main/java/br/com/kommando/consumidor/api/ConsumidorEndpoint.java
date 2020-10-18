@@ -20,16 +20,14 @@ public class ConsumidorEndpoint {
     @PostMapping
     public ResponseEntity<HashMap<String, Object>> adicionarConsumidor(@RequestBody Consumidor consumidor) {
         HashMap<String, Object> response = new HashMap<>();
-        Consumidor consumidorResult = service.saveConsumidor(consumidor);
-        if (consumidorResult == null) throw new NotValidConsumerException("Usuário inválido ou não existe");
-        response.put("consumidor", consumidorResult);
+        response.put("consumidor", service.saveConsumidor(consumidor));
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<HashMap<String, Object>> buscarConsumidores(@PathVariable String id) {
+    @GetMapping(path = "/{lobbyId}")
+    public ResponseEntity<HashMap<String, Object>> buscarConsumidores(@PathVariable String lobbyId) {
         HashMap<String, Object> response = new HashMap<>();
-        response.put("consumidores", service.findAllConsumidores(id));
+        response.put("consumidores", service.findAllConsumidores(lobbyId));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

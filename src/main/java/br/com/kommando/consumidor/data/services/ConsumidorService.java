@@ -30,12 +30,13 @@ public class ConsumidorService {
         }
         if (userRepository.existsByUid(consumidor.getUid())) {
             return repository.save(consumidor);
+        } else {
+            throw new NotValidConsumerException("Usuário inválido");
         }
-        return null;
     }
 
-    public List<Consumidor> findAllConsumidores(String id) {
-        List<Consumidor> consumidores = repository.findAll(Example.of(new Consumidor(id)));
+    public List<Consumidor> findAllConsumidores(String lobbyId) {
+        List<Consumidor> consumidores = repository.findAll(Example.of(new Consumidor(lobbyId)));
         consumidores.forEach(consumidor -> {
                     Pedido pedido = new Pedido(consumidor.getLobbyId(), consumidor.getId());
                     List<Pedido> pedidos = pedidoRepository.findAll(Example.of(pedido));
