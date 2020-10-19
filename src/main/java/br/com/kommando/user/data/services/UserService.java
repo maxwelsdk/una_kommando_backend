@@ -1,5 +1,6 @@
 package br.com.kommando.user.data.services;
 
+import br.com.kommando.exception.error.DataFoundException;
 import br.com.kommando.exception.error.DataNotFoundException;
 import br.com.kommando.user.data.models.User;
 import br.com.kommando.user.repository.UserRepository;
@@ -40,6 +41,15 @@ public class UserService {
             repository.deleteById(id);
         } else {
             throw new DataNotFoundException("Usuário não encontrado");
+        }
+    }
+
+    public User updateUser(User user) {
+        if (repository.findById(user.getId()).isPresent()) {
+            deleteById(user.getId());
+            return saveUser(user);
+        } else {
+            throw new DataFoundException("Usuário não encontrado!");
         }
     }
 }

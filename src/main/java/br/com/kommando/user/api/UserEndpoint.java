@@ -45,4 +45,11 @@ public class UserEndpoint {
         response.put("id", id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PatchMapping
+    ResponseEntity<HashMap<String, Object>> updateUser(@RequestBody User user) {
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("user", service.updateUser(user));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
