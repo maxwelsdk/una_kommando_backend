@@ -26,8 +26,13 @@ public class LobbyService {
         return repository.findAll();
     }
 
-    public Optional<Lobby> findById(String id) {
-        return repository.findById(id);
+    public Lobby findById(String id) {
+        Optional<Lobby> lobbyOptional = repository.findById(id);
+        if (lobbyOptional.isPresent()) {
+            return lobbyOptional.get();
+        } else {
+            throw new DataNotFoundException("Lobby não encontrada");
+        }
     }
 
     public void deleteById(String id) {
