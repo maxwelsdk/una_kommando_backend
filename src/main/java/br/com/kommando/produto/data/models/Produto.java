@@ -15,6 +15,8 @@ public class Produto implements Serializable {
 
     private int codigo;
 
+    private String titulo;
+
     private String descricao;
 
     private Double preco;
@@ -23,8 +25,9 @@ public class Produto implements Serializable {
     public Produto() {
     }
 
-    public Produto(int codigo, String descricao, Double preco) {
+    public Produto(int codigo, String titulo,String descricao, Double preco) {
         this.codigo = codigo;
+        this.titulo = titulo;
         this.descricao = descricao;
         this.preco = preco;
     }
@@ -45,6 +48,14 @@ public class Produto implements Serializable {
         this.codigo = codigo;
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
     public String getDescricao() {
         return descricao;
     }
@@ -61,14 +72,4 @@ public class Produto implements Serializable {
         this.preco = preco;
     }
 
-
-    @Override
-    public String toString() {
-        return "Produto{" +
-                "id='" + id + '\'' +
-                ", codigo=" + codigo +
-                ", descricao='" + descricao + '\'' +
-                ", preco=" + preco +
-                '}';
-    }
 }
