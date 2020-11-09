@@ -67,9 +67,14 @@ public class ConsumidorService {
     }
 
     public void deleteById(String id) {
-        final Optional<Consumidor> foudConsumidor = repository.findById(id);
-        if (foudConsumidor.isPresent()) {
-            if (foudConsumidor.get().getPedidos().isEmpty()) {
+        final Optional<Consumidor> foundConsumidor = repository.findById(id);
+        if (foundConsumidor.isPresent()) {
+            Optional<Lobby> lobby = lobbyRepository.findById(foundConsumidor.get().getLobbyId());
+            if (lobby.isPresent()) {
+                lobby.get().getConsumidorList().remove(foundConsumidor.get().getId());
+                lobbyRepository.save(lobby.get());
+            }
+            if (foundConsumidor.get().getPedidos().isEmpty()) {
                 repository.deleteById(id);
             } else {
                 throw new PedidoHasItemsException("Há pedidos para este consumidor, não pode ser excluído");
