@@ -21,7 +21,7 @@ public class Lobby implements Serializable {
 
     private LobbyStatus lobbyStatus = LobbyStatus.ABERTA;
 
-    private List<Consumidor> consumidorList;
+    private List<String> consumidorList;
 
     public Lobby() {
         this.consumidorList = new ArrayList<>();
@@ -62,21 +62,12 @@ public class Lobby implements Serializable {
         this.lobbyStatus = lobbyStatus;
     }
 
-    public List<Consumidor> getConsumidorList() {
+    public List<String> getConsumidorList() {
         return consumidorList;
     }
 
-    public void setConsumidorList(List<Consumidor> consumidorList) {
+    public void setConsumidorList(List<String> consumidorList) {
         this.consumidorList = consumidorList;
     }
 
-    @Override
-    public String toString() {
-        return "Lobby{" +
-                "id='" + id + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", lobbyStatus=" + lobbyStatus +
-                ", consumidorList=" + consumidorList +
-                '}';
-    }
 }

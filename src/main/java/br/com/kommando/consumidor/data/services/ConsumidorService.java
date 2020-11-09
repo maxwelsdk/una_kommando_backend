@@ -3,7 +3,10 @@ package br.com.kommando.consumidor.data.services;
 import br.com.kommando.consumidor.data.models.Consumidor;
 import br.com.kommando.consumidor.error.NotValidConsumerException;
 import br.com.kommando.consumidor.repository.ConsumidorRepository;
+import br.com.kommando.exception.error.DataFoundException;
 import br.com.kommando.exception.error.DataNotFoundException;
+import br.com.kommando.lobby.data.models.Lobby;
+import br.com.kommando.lobby.repository.LobbyRepository;
 import br.com.kommando.pedido.data.models.Pedido;
 import br.com.kommando.pedido.error.PedidoHasItemsException;
 import br.com.kommando.pedido.repository.PedidoRepository;
@@ -27,12 +30,24 @@ public class ConsumidorService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
+    @Autowired
+    private LobbyRepository lobbyRepository;
+
     public Consumidor saveConsumidor(Consumidor consumidor) {
         if (repository.findOne(Example.of(consumidor)).isPresent()) {
             throw new NotValidConsumerException("Consumidor existente");
         }
         if (userRepository.existsByUid(consumidor.getUid())) {
-            return repository.save(consumidor);
+            Optional<Lobby> lobby = lobbyRepository.findById(consumidor.getLobbyId());
+            if (lobby.isPresent()) {
+                Consumidor save = repository.save(consumidor);
+                List<String> consumidorList = lobby.get().getConsumidorList();
+                consumidorList.add(save.getId());
+                lobbyRepository.save(lobby.get());
+                return save;
+            } else {
+                throw new DataFoundException("Lobby não encontrada");
+            }
         } else {
             throw new NotValidConsumerException("Usuário inválido");
         }
