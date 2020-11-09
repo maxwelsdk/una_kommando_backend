@@ -13,17 +13,13 @@ public class Item implements Serializable {
     @Id
     private String id;
 
+    private String pedidoId;
+
     private String produtoId;
 
     private int quantidade;
 
     public Item() {
-    }
-
-    public Item(String id, String produtoId, int quantidade) {
-        this.id = id;
-        this.produtoId = produtoId;
-        this.quantidade = quantidade;
     }
 
     public String getId() {
@@ -32,6 +28,14 @@ public class Item implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getPedidoId() {
+        return pedidoId;
+    }
+
+    public void setPedidoId(String pedidoId) {
+        this.pedidoId = pedidoId;
     }
 
     public String getProdutoId() {

@@ -23,11 +23,11 @@ public class ItemEndpoint {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<HashMap<String, Object>> newItem(@RequestBody Item item) {
+    @PostMapping(path = "/{pedidoId}")
+    public ResponseEntity<HashMap<String, Object>> newItem(@PathVariable String pedidoId, @RequestBody Item item) {
         HashMap<String, Object> response = new HashMap<>();
         response.put("msg", "item criado com sucesso!");
-        response.put("item", service.save(item));
+        response.put("item", service.save(pedidoId, item));
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

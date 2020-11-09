@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Document
 public class Pedido implements Serializable {
@@ -63,6 +64,21 @@ public class Pedido implements Serializable {
         this.items = items;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pedido pedido = (Pedido) o;
+        return Objects.equals(id, pedido.id) &&
+                Objects.equals(lobbyId, pedido.lobbyId) &&
+                Objects.equals(consumidorId, pedido.consumidorId) &&
+                Objects.equals(items, pedido.items);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, lobbyId, consumidorId, items);
+    }
 
     @Override
     public String toString() {
