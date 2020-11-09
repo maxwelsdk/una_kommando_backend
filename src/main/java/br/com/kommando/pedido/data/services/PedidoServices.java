@@ -2,14 +2,18 @@ package br.com.kommando.pedido.data.services;
 
 import br.com.kommando.consumidor.repository.ConsumidorRepository;
 import br.com.kommando.exception.error.DataNotFoundException;
+import br.com.kommando.item.data.models.Item;
+import br.com.kommando.item.repository.ItemRepository;
 import br.com.kommando.lobby.repository.LobbyRepository;
 import br.com.kommando.pedido.data.models.Pedido;
 import br.com.kommando.pedido.error.InvalidPedidoException;
 import br.com.kommando.pedido.error.PedidoHasItemsException;
 import br.com.kommando.pedido.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.OpInc;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +31,9 @@ public class PedidoServices {
     @Autowired
     LobbyRepository lobbyRepository;
 
+    @Autowired
+    ItemRepository itemRepository;
+
     public Pedido savePedido(Pedido pedido) {
         ArrayList<Boolean> validations = new ArrayList<>();
         validations.add(pedido.getLobbyId().isBlank());
@@ -37,7 +44,13 @@ public class PedidoServices {
 
         if (lobbyRepository.findById(pedido.getLobbyId()).isPresent()
                 && consumidorRepository.findById(pedido.getConsumidorId()).isPresent()) {
-
+            for (String item : pedido.getItems()) {
+                Item item1 = new Item();
+                item1.setPedidoId(pedido.getId());
+                item1.setProdutoId(item1.getProdutoId());
+                Item savedItem = itemRepository.save(item1);
+                pedido.getItems().add(savedItem.getId());
+            }
             return repository.save(pedido);
         } else {
             throw new DataNotFoundException("Lobby ou consumidor inválido");

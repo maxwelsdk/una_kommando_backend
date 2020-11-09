@@ -38,7 +38,7 @@ public class ItemService {
             Pedido pedido = pedidoOptional.get();
             item.setPedidoId(pedidoId);
             Item itemSalvo = repository.save(item);
-            pedido.getItems().add(itemSalvo);
+            pedido.getItems().add(itemSalvo.getId());
             pedidoRepository.save(pedido);
             return itemSalvo;
         } else {
@@ -59,13 +59,12 @@ public class ItemService {
                 int index = -1;
                 if (pedidoOptional.isPresent()) {
                     for (int i = 0; i < pedidoOptional.get().getItems().size(); i++) {
-                        if (pedidoOptional.get().getItems().get(i).getId().equals(item.getId())) {
+                        if (pedidoOptional.get().getItems().get(i).equals(item.getId())) {
                             index = i;
                             repository.deleteById(id);
                         }
                     }
                     if (index != -1) {
-
                         pedidoOptional.get().getItems().remove(index);
                     }
                     pedidoRepository.save(pedidoOptional.get());

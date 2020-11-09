@@ -21,7 +21,7 @@ public class Pedido implements Serializable {
 
     private String consumidorId;
 
-    private List<Item> items;
+    private List<String> items;
 
     public Pedido() {
         this.items = new ArrayList<>();
@@ -56,37 +56,13 @@ public class Pedido implements Serializable {
         this.consumidorId = consumidorId;
     }
 
-    public List<Item> getItems() {
+    public List<String> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<String> items) {
         this.items = items;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pedido pedido = (Pedido) o;
-        return Objects.equals(id, pedido.id) &&
-                Objects.equals(lobbyId, pedido.lobbyId) &&
-                Objects.equals(consumidorId, pedido.consumidorId) &&
-                Objects.equals(items, pedido.items);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, lobbyId, consumidorId, items);
-    }
-
-    @Override
-    public String toString() {
-        return "Pedido{" +
-                "id='" + id + '\'' +
-                ", lobbyId='" + lobbyId + '\'' +
-                ", consumidorId='" + consumidorId + '\'' +
-                ", items=" + items +
-                '}';
-    }
 }

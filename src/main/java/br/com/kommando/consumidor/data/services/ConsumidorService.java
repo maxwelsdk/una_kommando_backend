@@ -35,7 +35,7 @@ public class ConsumidorService {
 
     public Consumidor saveConsumidor(Consumidor consumidor) {
         if (repository.findOne(Example.of(consumidor)).isPresent()) {
-            throw new NotValidConsumerException("Consumidor existente");
+            throw new NotValidConsumerException("Existe um consmidor com este id conectado");
         }
         if (userRepository.existsByUid(consumidor.getUid())) {
             Optional<Lobby> lobby = lobbyRepository.findById(consumidor.getLobbyId());
