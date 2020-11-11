@@ -1,6 +1,5 @@
 package br.com.kommando.lobby.data.models;
 
-import br.com.kommando.consumidor.data.models.Consumidor;
 import br.com.kommando.lobby.data.enums.LobbyStatus;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,10 +20,10 @@ public class Lobby implements Serializable {
 
     private LobbyStatus lobbyStatus = LobbyStatus.ABERTA;
 
-    private List<String> consumidorList;
+    private List<String> consumidores;
 
     public Lobby() {
-        this.consumidorList = new ArrayList<>();
+        this.consumidores = new ArrayList<>();
     }
 
     public Lobby(String descricao) {
@@ -35,7 +34,7 @@ public class Lobby implements Serializable {
         this.id = id;
         this.descricao = descricao;
         this.lobbyStatus = lobbyStatus;
-        this.consumidorList = new ArrayList<>();
+        this.consumidores = new ArrayList<>();
     }
 
     public String getId() {
@@ -62,12 +61,12 @@ public class Lobby implements Serializable {
         this.lobbyStatus = lobbyStatus;
     }
 
-    public List<String> getConsumidorList() {
-        return consumidorList;
+    public List<String> getConsumidores() {
+        return consumidores;
     }
 
-    public void setConsumidorList(List<String> consumidorList) {
-        this.consumidorList = consumidorList;
+    public void setConsumidores(List<String> consumidores) {
+        this.consumidores = consumidores;
     }
 
 }

@@ -38,7 +38,7 @@ public class LobbyService {
     public void deleteById(String id) {
         Optional<Lobby> lobbyOptional = repository.findById(id);
         if (lobbyOptional.isPresent()) {
-            if (lobbyOptional.get().getConsumidorList().isEmpty()) {
+            if (lobbyOptional.get().getConsumidores().isEmpty()) {
                 repository.deleteById(id);
             } else {
                 throw new DataFoundException("Lobby possui consumidores, não poderá ser deletada");

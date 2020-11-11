@@ -41,7 +41,7 @@ public class ConsumidorService {
             Optional<Lobby> lobby = lobbyRepository.findById(consumidor.getLobbyId());
             if (lobby.isPresent()) {
                 Consumidor save = repository.save(consumidor);
-                List<String> consumidorList = lobby.get().getConsumidorList();
+                List<String> consumidorList = lobby.get().getConsumidores();
                 consumidorList.add(save.getId());
                 lobbyRepository.save(lobby.get());
                 return save;
@@ -71,7 +71,7 @@ public class ConsumidorService {
         if (foundConsumidor.isPresent()) {
             Optional<Lobby> lobby = lobbyRepository.findById(foundConsumidor.get().getLobbyId());
             if (lobby.isPresent()) {
-                lobby.get().getConsumidorList().remove(foundConsumidor.get().getId());
+                lobby.get().getConsumidores().remove(foundConsumidor.get().getId());
                 lobbyRepository.save(lobby.get());
             }
             if (foundConsumidor.get().getPedidos().isEmpty()) {
