@@ -1,5 +1,6 @@
 package br.com.kommando.pedido.data.services;
 
+import br.com.kommando.consumidor.data.models.Consumidor;
 import br.com.kommando.consumidor.repository.ConsumidorRepository;
 import br.com.kommando.exception.error.DataNotFoundException;
 import br.com.kommando.item.data.models.Item;
@@ -51,7 +52,13 @@ public class PedidoServices {
                 Item savedItem = itemRepository.save(item1);
                 pedido.getItems().add(savedItem.getId());
             }
-            return repository.save(pedido);
+            Pedido saved = repository.save(pedido);
+            Optional<Consumidor> consumidorOptional = consumidorRepository.findById(saved.getConsumidorId());
+            consumidorOptional.ifPresent(consumidor -> {
+                consumidor.getPedidos().add(saved.getId());
+                consumidorRepository.save(consumidor);
+            });
+            return saved;
         } else {
             throw new DataNotFoundException("Lobby ou consumidor inválido");
         }
