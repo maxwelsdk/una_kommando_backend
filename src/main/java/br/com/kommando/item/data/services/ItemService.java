@@ -29,6 +29,26 @@ public class ItemService {
         return repository.findAll();
     }
 
+    public List<Item> saveAll(String pedidoId, List<Item> itens) {
+        Optional<Pedido> pedidoOptional = pedidoRepository.findById(pedidoId);
+        if (pedidoOptional.isEmpty()) {
+            throw new DataNotFoundException("Pedido não encontrado");
+        }
+        Pedido pedido = pedidoOptional.get();
+        itens.forEach(item ->
+        {
+            if (produtoRepository.findById(item.getProdutoId()).isEmpty())
+                throw new DataNotFoundException("Produto não encontrado");
+            item.setPedidoId(pedidoId);
+        });
+        List<Item> itensSalvo = repository.saveAll(itens);
+        itensSalvo.forEach(item -> {
+            pedido.getItems().add(item.getId());
+        });
+        pedidoRepository.save(pedido);
+        return itensSalvo;
+    }
+
     public Item save(String pedidoId, Item item) {
         Optional<Pedido> pedidoOptional = pedidoRepository.findById(pedidoId);
         if (pedidoOptional.isEmpty()) {

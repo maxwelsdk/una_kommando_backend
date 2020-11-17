@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("itens")
@@ -28,6 +29,14 @@ public class ItemEndpoint {
         HashMap<String, Object> response = new HashMap<>();
         response.put("msg", "item criado com sucesso!");
         response.put("item", service.save(pedidoId, item));
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping(path = "/{pedidoId}/batch")
+    public ResponseEntity<HashMap<String, Object>> newItens(@PathVariable String pedidoId, @RequestBody List<Item> itens) {
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("msg", "itens criado com sucesso!");
+        response.put("itens", service.saveAll(pedidoId, itens));
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
