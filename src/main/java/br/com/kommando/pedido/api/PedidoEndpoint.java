@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 
 @RestController
@@ -20,6 +21,13 @@ public class PedidoEndpoint {
     public ResponseEntity<HashMap<String, Object>> getPedidos() {
         HashMap<String, Object> response = new HashMap<>();
         response.put("pedidos", pedidoServices.findAll());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{lobbyId}/{consumidorId}")
+    public ResponseEntity<HashMap<String, Object>> getPedidosByLobbyAndConsumidor(@PathVariable String lobbyId, @PathVariable String consumidorId) {
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("pedidos", pedidoServices.findAllByLobbyAndConsumidor(lobbyId, consumidorId));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
