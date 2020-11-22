@@ -11,11 +11,8 @@ import br.com.kommando.pedido.error.InvalidPedidoException;
 import br.com.kommando.pedido.error.PedidoHasItemsException;
 import br.com.kommando.pedido.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.expression.spel.ast.OpInc;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -74,8 +71,15 @@ public class PedidoServices {
         return repository.findById(id);
     }
 
-    public List<Pedido> findAllByLobbyAndConsumidor(String lobbyId, String consumidorId) {
-        return repository.findByLobbyIdAndConsumidorId(lobbyId, consumidorId);
+    public List<Item> findAllByLobbyAndConsumidor(String lobbyId, String consumidorId) {
+        List<Item> itens = new ArrayList<>();
+        List<Pedido> pedidos = repository.findByLobbyIdAndConsumidorId(lobbyId, consumidorId);
+
+        pedidos.forEach(pedido -> {
+            itemRepository.findAllById(pedido.getItems()).forEach(itens::add);
+        });
+
+        return itens;
     }
 
     public void deleteById(String id) {

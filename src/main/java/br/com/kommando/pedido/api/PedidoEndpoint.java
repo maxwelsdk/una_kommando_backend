@@ -24,10 +24,11 @@ public class PedidoEndpoint {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    //TODO: Migrar para ItemEndpoint
     @GetMapping(path = "/{lobbyId}/{consumidorId}")
     public ResponseEntity<HashMap<String, Object>> getPedidosByLobbyAndConsumidor(@PathVariable String lobbyId, @PathVariable String consumidorId) {
         HashMap<String, Object> response = new HashMap<>();
-        response.put("pedidos", pedidoServices.findAllByLobbyAndConsumidor(lobbyId, consumidorId));
+        response.put("itens", pedidoServices.findAllByLobbyAndConsumidor(lobbyId, consumidorId));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
