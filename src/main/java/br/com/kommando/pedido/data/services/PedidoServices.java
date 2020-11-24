@@ -10,6 +10,9 @@ import br.com.kommando.pedido.data.models.Pedido;
 import br.com.kommando.pedido.error.InvalidPedidoException;
 import br.com.kommando.pedido.error.PedidoHasItemsException;
 import br.com.kommando.pedido.repository.PedidoRepository;
+import br.com.kommando.user.data.enums.UserRoles;
+import br.com.kommando.user.data.models.User;
+import br.com.kommando.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,9 @@ public class PedidoServices {
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     public Pedido savePedido(Pedido pedido) {
         ArrayList<Boolean> validations = new ArrayList<>();
@@ -99,5 +105,24 @@ public class PedidoServices {
         } else {
             throw new DataNotFoundException("Pedido não encontrado");
         }
+    }
+
+    public List<Item> itensPedidosDesconhecidos(String lobbyId) {
+        List<Pedido> pedidos = repository.findByLobbyId(lobbyId);
+        List<Item> itens = new ArrayList<>();
+        pedidos.forEach(pedido -> {
+            Optional<Consumidor> consumidorOptional = consumidorRepository.findById(pedido.getConsumidorId());
+            if (consumidorOptional.isPresent()) {
+                User user = userRepository.findByUid(consumidorOptional.get().getUid());
+                if (user != null && user.getRole() == UserRoles.FUNCIONARIO) {
+                    pedido.getItems().forEach(s -> {
+                        Optional<Item> foundItem = itemRepository.findById(s);
+                        foundItem.ifPresent(itens::add);
+                    });
+                }
+            }
+        });
+
+        return itens;
     }
 }

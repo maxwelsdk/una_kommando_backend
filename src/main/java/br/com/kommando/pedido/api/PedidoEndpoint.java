@@ -65,5 +65,10 @@ public class PedidoEndpoint {
 
     }
 
-
+    @GetMapping(path = "/desconhecidos/{lobbyId}")
+    public ResponseEntity<HashMap<String, Object>> getPeididosDesconhecidos(@PathVariable String lobbyId) {
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("itens", pedidoServices.itensPedidosDesconhecidos(lobbyId));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

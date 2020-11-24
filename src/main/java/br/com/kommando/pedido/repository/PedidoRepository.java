@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PedidoRepository extends MongoRepository<Pedido ,String> {
     public List<Pedido> findByLobbyIdAndConsumidorId(String lobbyId, String consumidorId);
+    public List<Pedido> findByLobbyId(String lobbyId);
 }
