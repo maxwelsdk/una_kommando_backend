@@ -1,5 +1,6 @@
 package br.com.kommando.lobby.api;
 
+import br.com.kommando.consumidor.data.services.ConsumidorService;
 import br.com.kommando.lobby.data.models.Lobby;
 import br.com.kommando.lobby.data.services.LobbyService;
 import br.com.kommando.lobby.error.LobbyNotFoundException;
@@ -20,6 +21,9 @@ public class LobbyEndpoint {
 
     @Autowired
     private LobbyService lobbyServices;
+
+    @Autowired
+    private ConsumidorService consumidorService;
 
     @GetMapping
     public ResponseEntity<HashMap<String, Object>> getLobbies() {
@@ -65,6 +69,13 @@ public class LobbyEndpoint {
         }
         response.put("msg", "Falha ao salvar a lobby");
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(path = "/{lobbyId}/consumidores")
+    public ResponseEntity<HashMap<String, Object>> buscarConsumidores(@PathVariable String lobbyId) {
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("consumidores", consumidorService.findAllConsumidores(lobbyId));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

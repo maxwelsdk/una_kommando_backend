@@ -53,6 +53,14 @@ public class ConsumidorService {
         }
     }
 
+    public Consumidor find(String id) {
+        Optional<Consumidor> consumidorOptional = repository.findById(id);
+        if (consumidorOptional.isEmpty()) {
+            throw new DataFoundException("Consumidor não encontrado");
+        }
+        return consumidorOptional.get();
+    }
+
     public List<Consumidor> findAllConsumidores(String lobbyId) {
         List<Consumidor> consumidores = repository.findAll(Example.of(new Consumidor(lobbyId)));
         consumidores.forEach(consumidor -> {

@@ -1,5 +1,6 @@
 package br.com.kommando.user.data.models;
 
+import br.com.kommando.user.data.enums.UserRoles;
 import com.mongodb.lang.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.Id;
@@ -29,6 +30,9 @@ public class User implements Serializable {
 
     @NonNull
     private String telefone;
+
+    @NonNull
+    private UserRoles role = UserRoles.CONSUMIDOR;
 
     public User() {
     }
@@ -84,5 +88,14 @@ public class User implements Serializable {
 
     public void setTelefone(@NonNull String telefone) {
         this.telefone = telefone;
+    }
+
+    @NonNull
+    public UserRoles getRole() {
+        return role;
+    }
+
+    public void setRole(@NonNull UserRoles role) {
+        this.role = role;
     }
 }
