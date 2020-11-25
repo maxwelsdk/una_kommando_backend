@@ -2,6 +2,7 @@ package br.com.kommando.lobby.api;
 
 import br.com.kommando.consumidor.data.services.ConsumidorService;
 import br.com.kommando.lobby.data.models.Lobby;
+import br.com.kommando.lobby.data.services.LobbyFinanceiroService;
 import br.com.kommando.lobby.data.services.LobbyService;
 import br.com.kommando.lobby.error.LobbyNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class LobbyEndpoint {
 
     @Autowired
     private LobbyService lobbyServices;
+
+    @Autowired
+    private LobbyFinanceiroService lobbyFinanceiroService;
 
     @Autowired
     private ConsumidorService consumidorService;
@@ -75,6 +79,14 @@ public class LobbyEndpoint {
     public ResponseEntity<HashMap<String, Object>> buscarConsumidores(@PathVariable String lobbyId) {
         HashMap<String, Object> response = new HashMap<>();
         response.put("consumidores", consumidorService.findAllConsumidores(lobbyId));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{lobbyId}/total")
+    public ResponseEntity<HashMap<String, Object>> gettotalAcumulado(@PathVariable String lobbyId) {
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("msg", "Total acumulado");
+        response.put("total", lobbyFinanceiroService.getTotalAcumulado(lobbyId));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

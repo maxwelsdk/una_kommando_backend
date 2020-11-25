@@ -28,11 +28,9 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<User> getUser(String uid) {
-        User userExample = new User();
-        userExample.setUid(uid);
-        Optional<User> foundUser = repository.findOne(Example.of(userExample));
-        if (foundUser.isEmpty()) throw new DataNotFoundException("Usuário não encontrado");
+    public User getUser(String uid) {
+        User foundUser = repository.findByUid(uid);
+        if (foundUser == null) throw new DataNotFoundException("Usuário não encontrado");
         return foundUser;
     }
 
