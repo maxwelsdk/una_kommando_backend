@@ -100,7 +100,7 @@ public class PedidoServices {
     public Pedido updatePedido(Pedido pedido) {
         final Optional<Pedido> foundPedido = repository.findById(pedido.getId());
         if (foundPedido.isPresent()) {
-            repository.deleteById(pedido.getId());
+            repository.deleteById(foundPedido.get().getId());
             return repository.save(pedido);
         } else {
             throw new DataNotFoundException("Pedido não encontrado");
